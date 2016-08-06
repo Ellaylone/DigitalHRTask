@@ -1,8 +1,12 @@
 <?php
+use yii\widgets\Pjax;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 
 $this->title = 'Rates';
+Pjax::begin(['enablePushState' => false, 'enableReplaceState' => false, 'id' => 'ratesPjax']);
 ?>
 <div class="site-index">
     <div class="body-content">
@@ -13,6 +17,7 @@ $this->title = 'Rates';
                     echo "<p>";
                     echo $latestRate->date . " - " . $latestRate->rate;
                     echo "</p>";
+                    echo Html::a('Refresh', Url::current());
                 } else {
                     echo "<p>";
                     echo "Нет данных";
@@ -23,3 +28,5 @@ $this->title = 'Rates';
         </div>
     </div>
 </div>
+<?php
+Pjax::end();
