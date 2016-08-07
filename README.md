@@ -1,4 +1,4 @@
-Yii 2 DigitalHR test task
+Yii 2 GetIntentTask
 ============================
 
 DIRECTORY STRUCTURE
