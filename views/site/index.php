@@ -2,6 +2,7 @@
 use yii\widgets\Pjax;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 
@@ -12,16 +13,20 @@ Pjax::begin(['enablePushState' => false, 'enableReplaceState' => false, 'id' => 
     <div class="body-content">
         <div class="row">
             <div class="col-lg-4">
-                <p>
-                <?php
-                if($latestRate){
-                    echo $latestRate->date . " - " . $latestRate->rate["USD"] . " - " . $latestRate->rate["EUR"];
-                } else {
-                    echo "Нет данных";
-                }
-                ?>
-                </p>
-                <?=Html::a('Refresh', Url::current());?>
+                <h2>Курс</h2>
+                    <?php
+                    if($latestRate){
+                        echo Html::tag('small', "Источник: {$latestRate->source}");
+                        echo Html::tag('p', $latestRate->date);
+                        foreach($latestRate->rate as $key => $rate){
+                            echo Html::ul([$key, number_format($rate, 4)]);
+                        }
+                    } else {
+                        echo Html::tag('p', 'Нет данных');
+                    }
+                    ?>
+                <?=Html::a('Обновить', Url::current(), ['class' => 'btn btn-default']);?>
+                <?=Html::a('Получить новые данные', Url::to(['site/update']), ['class' => 'btn btn-default']);?>
             </div>
         </div>
     </div>
