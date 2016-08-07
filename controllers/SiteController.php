@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\ContactForm;
 use app\models\LoginForm;
 use app\models\Rates;
+use app\models\YahooRateProvider;
 
 class SiteController extends Controller
 {
@@ -61,6 +62,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $yahoo = new YahooRateProvider();
+        $yahoo->getRateValues();
         $model = new Rates();
         return $this->render('index', [
             'latestRate' => $model->latest,
