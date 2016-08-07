@@ -25,8 +25,8 @@ Pjax::begin(['enablePushState' => false, 'enableReplaceState' => false, 'id' => 
                         echo Html::tag('p', 'Нет данных');
                     }
                     ?>
-                <?=Html::a('Обновить', Url::current(), ['class' => 'btn btn-default']);?>
-                <?=Html::a('Получить новые данные', Url::to(['site/update']), ['data-pjax' => 0, 'class' => 'btn btn-default']);?>
+                <?=Html::a('Обновить', Url::current(), ['class' => 'btn btn-default refreshRates']);?>
+                <?=Html::a('Получить новые данные', Url::to(['site/update']), ['data-pjax' => 0, 'class' => 'btn btn-default updateRates']);?>
             </div>
         </div>
     </div>
