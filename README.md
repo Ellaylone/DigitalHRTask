@@ -17,6 +17,11 @@ DIRECTORY STRUCTURE
       web/                contains the entry script and Web resources
 
 
+INSTALLATION
+------------
+
+Run `yii migration` to migrate rates table
+
 
 REQUIREMENTS
 ------------
