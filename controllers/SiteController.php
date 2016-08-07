@@ -71,34 +71,30 @@ class SiteController extends Controller
 
     public function actionUpdate()
     {
-        $yahoo = new YahooRateProvider();
-        $yahooRateValues = $yahoo->getRateValues();
-        $yahooRate = new Rates();
-        $yahooQuery = $yahooRate->find()->source('Yahoo')->date($yahooRateValues['date'])->one();
-        if(!$yahooQuery){
-            $yahooRate->id = 0;
-            $yahooRate->date = $yahooRateValues['date'];
-            $yahooRate->rate = $yahooRateValues['rates'];
-            $yahooRate->source = "Yahoo";
-            $yahooRate->save();
-        } else {
-            $yahooQuery->rate = $yahooRateValues['rates'];
-            $yahooQuery->update();
-        }
+        $providers = [
+            'Yahoo' => [
+                'provider' => new YahooRateProvider(),
+            ],
+            'Cbr' => [
+                'provider' => new CbrRateProvider(),
+            ]
+        ];
 
-        $cbr = new CbrRateProvider();
-        $cbrRateValues = $cbr->getRateValues();
-        $cbrRate = new Rates();
-        $cbrQuery = $cbrRate->find()->source('Cbr')->date($cbrRateValues['date'])->one();
-        if(!$cbrQuery){
-            $cbrRate->id = 0;
-            $cbrRate->date = $cbrRateValues['date'];
-            $cbrRate->rate = $cbrRateValues['rates'];
-            $cbrRate->source = "Cbr";
-            $cbrRate->save();
-        } else {
-            $cbrQuery->rate = $cbrRateValues['rates'];
-            $cbrQuery->update();
+        forEach($providers as $source => $provider){
+            $rateValues = $provider['provider']->getRateValues();
+            $model = new Rates();
+            $query = $model->find()->source($source)->date($rateValues['date'])->one();
+
+            if(!$query){
+                $model->id = 0;
+                $model->date = $rateValues['date'];
+                $model->rate = $rateValues['rates'];
+                $model->source = $source;
+                $model->save();
+            } else {
+                $query->rate = $rateValues['rates'];
+                $query->update();
+            }
         }
     }
 

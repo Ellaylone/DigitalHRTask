@@ -26,7 +26,7 @@ Pjax::begin(['enablePushState' => false, 'enableReplaceState' => false, 'id' => 
                     }
                     ?>
                 <?=Html::a('Обновить', Url::current(), ['class' => 'btn btn-default']);?>
-                <?=Html::a('Получить новые данные', Url::to(['site/update']), ['class' => 'btn btn-default']);?>
+                <?=Html::a('Получить новые данные', Url::to(['site/update']), ['data-pjax' => 0, 'class' => 'btn btn-default']);?>
             </div>
         </div>
     </div>
