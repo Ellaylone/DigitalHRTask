@@ -10,6 +10,7 @@ use app\models\ContactForm;
 use app\models\LoginForm;
 use app\models\Rates;
 use app\models\YahooRateProvider;
+use app\models\CbrRateProvider;
 
 class SiteController extends Controller
 {
@@ -62,12 +63,43 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $yahoo = new YahooRateProvider();
-        $yahoo->getRateValues();
-        $model = new Rates();
+        $rates = new Rates();
         return $this->render('index', [
-            'latestRate' => $model->latest,
+            'latestRate' => $rates->latest,
         ]);
+    }
+
+    public function actionUpdate()
+    {
+        $yahoo = new YahooRateProvider();
+        $yahooRateValues = $yahoo->getRateValues();
+        $yahooRate = new Rates();
+        $yahooQuery = $yahooRate->find()->source('Yahoo')->date($yahooRateValues['date'])->one();
+        if(!$yahooQuery){
+            $yahooRate->id = 0;
+            $yahooRate->date = $yahooRateValues['date'];
+            $yahooRate->rate = $yahooRateValues['rates'];
+            $yahooRate->source = "Yahoo";
+            $yahooRate->save();
+        } else {
+            $yahooQuery->rate = $yahooRateValues['rates'];
+            $yahooQuery->update();
+        }
+
+        $cbr = new CbrRateProvider();
+        $cbrRateValues = $cbr->getRateValues();
+        $cbrRate = new Rates();
+        $cbrQuery = $cbrRate->find()->source('Cbr')->date($cbrRateValues['date'])->one();
+        if(!$cbrQuery){
+            $cbrRate->id = 0;
+            $cbrRate->date = $cbrRateValues['date'];
+            $cbrRate->rate = $cbrRateValues['rates'];
+            $cbrRate->source = "Cbr";
+            $cbrRate->save();
+        } else {
+            $cbrQuery->rate = $cbrRateValues['rates'];
+            $cbrQuery->update();
+        }
     }
 
     /**
