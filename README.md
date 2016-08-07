@@ -20,7 +20,7 @@ DIRECTORY STRUCTURE
 INSTALLATION
 ------------
 
-Run `yii migration` to migrate rates table
+Run `yii migrate` to migrate rates table
 
 
 REQUIREMENTS
