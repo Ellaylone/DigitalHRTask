@@ -13,6 +13,13 @@ class RatesQuery extends \yii\db\ActiveQuery
         return $this;
     }
 
+    public function date($date)
+    {
+        $date = new \DateTime($date);
+        $this->andWhere(['date' => $date->getTimestamp()]);
+        return $this;
+    }
+
     public function all($db = null)
     {
         return parent::all($db);
