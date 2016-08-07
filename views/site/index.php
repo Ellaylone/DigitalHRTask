@@ -15,7 +15,7 @@ Pjax::begin(['enablePushState' => false, 'enableReplaceState' => false, 'id' => 
                 <p>
                 <?php
                 if($latestRate){
-                    echo $latestRate->date . " - " . $latestRate->rate;
+                    echo $latestRate->date . " - " . $latestRate->rate["USD"] . " - " . $latestRate->rate["EUR"];
                 } else {
                     echo "Нет данных";
                 }
