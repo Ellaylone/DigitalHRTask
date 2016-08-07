@@ -6,6 +6,13 @@ use Yii;
 
 class RatesQuery extends \yii\db\ActiveQuery
 {
+    public function source($source)
+    {
+        $this->andWhere(['source' => $source]);
+        $this->orderBy(['date' => SORT_DESC]);
+        return $this;
+    }
+
     public function all($db = null)
     {
         return parent::all($db);
@@ -14,5 +21,4 @@ class RatesQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
-    }
-}
+    }}
